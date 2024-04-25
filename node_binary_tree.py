@@ -1,26 +1,43 @@
-from typing import Generic, TypeVar, Literal
+from typing import TypeVar, Optional
 
 T = TypeVar("T")
 
 
-class Node(Generic[T]):
-    def __init__(self, data: T):
+class Node:
+    def __init__(self, data: T, procedencia: str):
         self.data = data
-        self.left: Node | None = None
-        self.right: Node | None = None
+        self.procedencia = procedencia
+        self.recurrencia = 1
+        self.left: Optional[Node] = None
+        self.right: Optional[Node] = None
 
-    def is_leaf(self) -> bool:
+    def sum(self):
+        self.recurrencia += 1
+
+    def proce(self, procedencia):
+        if self.procedencia != procedencia:
+            self.procedencia += " ; " + str(procedencia)
+
+    def is_leaf(self):
         return self.left is None and self.right is None
 
-    def hos_children(self) -> Literal["left", "right", "both", "none"]:
-        if self.left is None and self.right is None:
-            return "none"
-        elif self.left is not None and self.right is not None:
-            return "both"
-        elif self.left is not None and self.right is None:
-            return "left"
-        elif self.left is None and self.right is not None:
-            return "right"
+    def PrintPreorder(self, node):
+        if node is None:
+            return
+        print(f"{node.data}, recurrencia: {self.recurrencia}, procedencia(s): {self.procedencia}")
+        node.PrintPreorder(node.left)
+        node.PrintPreorder(node.right)
 
-    def __str__(self):
-        return str(self.data)
+    def PrintPostorder(self,node):
+        if node is None:
+            return
+        node.PrintPostorder(node.left)
+        node.PrintPostorder(node.right)
+        print(f"{node.data}, recurrencia: {self.recurrencia}, procedencia(s): {self.procedencia}")
+
+    def PrintInorder(self, node):
+        if node is None:
+            return
+        node.PrintInorder(node.left)
+        print(f"{node.data}, recurrencia: {self.recurrencia}, procedencia(s): {self.procedencia}")
+        node.PrintInorder(node.right)

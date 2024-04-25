@@ -1,25 +1,27 @@
-from binary_search_tree import BinarySearchTree
-numeros: BinarySearchTree[str] = BinarySearchTree()
-numeros.insert("h")
-numeros.insert("z")
-numeros.insert("a")
-numeros.insert("d")
-numeros.insert("e")
-numeros.insert("f")
-numeros.insert("g")
-numeros.insert("h")
-numeros.insert("i")
-numeros.insert("z")
-numeros.insert("a")
+from line_text import LineText
+from binary_search_tree import BinaryTree
+from leerarchivo.main import leer_archivo
 
+vec_text = []
+for i in range(10):
+    nombre_archivo = str(i + 1) + ".txt"
+    contenido = leer_archivo(nombre_archivo)
+    vec_text.append(str(contenido))
+text = []
+print(" ")
+result = ""
+procedencia = 1
+for x in vec_text:
+    for i in x:
+        if i != " ":
+            result += i
+        else:
+            text.append(LineText(result, procedencia))
+            result = ""
+    procedencia += 1
 
-print(numeros.preorder())
-print("Nodo maximo: ")
-print(numeros.max())
-print("Nodo minimo: ")
-print(numeros.min())
+arbol = BinaryTree()
+for i in text:
+    arbol.insertar(i.data, str(i.procedencia))
 
-
-if "jaan" < "jeen":
-    print("si")
-
+arbol.Preorder()
